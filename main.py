@@ -27,7 +27,6 @@ class LineNumbers(Text):
         p = int(p)
         final_index = str(self.text_widget.index(END))
         num_of_lines = final_index.split('.')[0]
-        num_of_lines = int(num_of_lines) - 1
         line_numbers_string = "\n".join(str(p + no) for no in range(int(num_of_lines)))
         width = len(str(num_of_lines))
 
@@ -140,8 +139,7 @@ def quit_window():
 
 if __name__ == '__main__':
     # initialize
-    # ctypes.windll.shcore.SetProcessDpiAwareness(True)
-
+    ctypes.windll.shcore.SetProcessDpiAwareness(True)
     root = Tk()
     root.title('File Comparison')
 
@@ -152,7 +150,7 @@ if __name__ == '__main__':
     # setting tkinter window size and scaling
     root.geometry("%dx%d" % (width, height))
 
-    root.tk.call('tk', 'scaling', '0.25')
+    root.tk.call('tk', 'scaling', '1.20')
     # icon logo
     root_icon = PhotoImage(file="Images/share-files.png")
     root.iconphoto(False, root_icon)
