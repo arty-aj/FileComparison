@@ -163,7 +163,7 @@ if __name__ == '__main__':
 
     # comparison Button
     Button(root, text='Click Me !', image=compare_image, width=80, height=80,
-           command=file_compare).grid(row=0, column=3)
+           command=file_compare).grid(row=0, column=4)
 
     # File 1 window
     text_area_1 = Text(root, width=10, height=20)
@@ -182,33 +182,33 @@ if __name__ == '__main__':
 
     # file 2 window
     text_area_2 = Text(root, width=10, height=20)
-    text_area_2.grid(columnspan=3, row=0, column=4)
+    text_area_2.grid(columnspan=3, row=0, column=6)
     txt2 = Text(text_area_2)
     lines2 = LineNumbers(text_area_2, txt2, width=2)
     lines2.pack(side=LEFT, fill=BOTH)
     txt2.pack(expand=True, fill=BOTH)
     txt2.focus()
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
-           command=lambda: file1_name == open_file(2)).grid(row=1, column=4, sticky=E)
+           command=lambda: file1_name == open_file(2)).grid(row=1, column=6, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clear_to_text_input(2)).grid(row=1, column=5)
+           command=lambda: clear_to_text_input(2)).grid(row=1, column=7)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
-           command=lambda: save_file(2)).grid(row=1, column=6, sticky=W)
+           command=lambda: save_file(2)).grid(row=1, column=8, sticky=W)
 
     # compared file window
     text_area_3 = Text(root, width=10, height=10)
-    text_area_3.grid(row=2, column=3)
+    text_area_3.grid(columnspan=3, row=2, column=3)
     txt3 = Text(text_area_3)
     lines3 = LineNumbers(text_area_3, txt3, width=2)
     lines3.pack(side=LEFT, fill=BOTH)
     txt3.pack(expand=True, fill=BOTH)
     txt3.focus()
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
-           command=lambda: file1_name == open_file(3)).grid(row=4, column=2, sticky=E)
+           command=lambda: file1_name == open_file(3)).grid(row=3, column=3, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clear_to_text_input(3)).grid(row=4, column=3)
+           command=lambda: clear_to_text_input(3)).grid(row=3, column=4)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
-           command=lambda: save_file(3)).grid(row=4, column=4, sticky=W)
+           command=lambda: save_file(3)).grid(row=3, column=5, sticky=W)
 
     # exit button (if needed)
     # Button(root,text="Quit", font=('Comic Sans', 13, 'bold'), command= quit_win).grid(row=10,column=10)
