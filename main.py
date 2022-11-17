@@ -55,8 +55,7 @@ def open_file(file):
         lines = file2_name.readlines()
         for line in lines:
             txt2.insert(END, line)
-
-    return file2_name.read().title()
+        file2_name.close()
 
 
 # Define a function to clear the input text
@@ -80,8 +79,7 @@ def save_file(text):
 
 
 def file_compare():
-    comparedArray = []
-    print(file1_name.name)
+    compared_array = []
     # print(file2_name.name)
     f1_array = []
     f1 = open(file1_name.name, "r")
@@ -105,78 +103,92 @@ def file_compare():
     for i in range(0, indexSize):
         if i < smallestArray:
             if f1_array[i] == f2_array[i]:
-                comparedArray.append(str(i + 1) + ":( )  " + f1_array[i])
+                compared_array.append(str(i + 1) + ":( )  " + f1_array[i])
             else:
-                comparedArray.append(str(i + 1) + ":(<-) " + f1_array[i])
-                comparedArray.append(str(i + 1) + ":(->) " + f2_array[i])
+                compared_array.append(str(i + 1) + ":(<-) " + f1_array[i])
+                compared_array.append(str(i + 1) + ":(->) " + f2_array[i])
         else:
             if biggestArray == "f1":
-                comparedArray.append(str(i + 1) + ":(<-) " + f1_array[i])
+                compared_array.append(str(i + 1) + ":(<-) " + f1_array[i])
             elif biggestArray == "f2":
-                comparedArray.append(str(i + 1) + ":(->) " + f2_array[i])
+                compared_array.append(str(i + 1) + ":(->) " + f2_array[i])
 
-    # for i in range(len(comparedArray)):
-    #     print(f"{comparedArray[i]}")
+    # for i in range(len(compared_array)):
+    #     print(f"{compared_array[i]}")
 
-    for line in range(len(comparedArray)):
-        txt3.insert(END, comparedArray[line] + "\n")
+    for line in range(len(compared_array)):
+        txt3.insert(END, compared_array[line] + "\n")
 
+
+def quit_window():
+    root.destroy()
 
 
 if __name__ == '__main__':
     # initialize
     root = Tk()
     root.title('File Comparison')
-    root.geometry('1500x700')
+
+    # getting screen width and height of display
+    width = root.winfo_screenwidth()
+    height = root.winfo_screenheight()
+
+    # setting tkinter window size
+    root.geometry("%dx%d" % (width, height))
+    # icon logo
     root_icon = PhotoImage(file="Images/share-files.png")
     root.iconphoto(False, root_icon)
+
     # Images for button
     folder_image = PhotoImage(file="Images/folder.png")
     save_image = PhotoImage(file="Images/floppydisk.png")
     clear_image = PhotoImage(file="Images/archeology.png")
     compare_image = PhotoImage(file="Images/sync.png")
+
+    # comparison Button
     Button(root, text='Click Me !', image=compare_image, width=80, height=80,
-           command=file_compare).grid(row=0, column=1)
+           command=file_compare).grid(row=0, column=3)
 
     # File 1 window
-    text_area_1 = Text(root, width=20, height=40)
-    text_area_1.grid(row=0, column=0, padx=1, pady=25)
+    text_area_1 = Text(root, width=10, height=20)
+    text_area_1.grid(columnspan=3, row=0, column=0)
     txt1 = Text(text_area_1)
     lines1 = LineNumbers(text_area_1, txt1, width=2)
     lines1.pack(side=LEFT, fill=BOTH)
     txt1.pack(expand=True, fill=BOTH)
     txt1.focus()
-    Button(root, text='Click Me !', image=folder_image, width=40, height=40,
-           command=lambda: file1_name == open_file(1)).grid(row=1, column=0)
-    Button(root, text='Click Me !', image=clear_image, width=40, height=40,
-           command=lambda: clearToTextInput(1)).grid(row=3, column=0)
-    Button(root, text='Click Me !', image=save_image, width=40, height=40,
-           command=lambda: save_file(1)).grid(row=2,
-                                              column=0)
+    Button(root, text='Click Me !', image=folder_image, width=55, height=55,
+           command=lambda: file1_name == open_file(1)).grid(row=1, column=0, sticky=E)
+    Button(root, text='Click Me !', image=clear_image, width=55, height=55,
+           command=lambda: clearToTextInput(1)).grid(row=1, column=1)
+    Button(root, text='Click Me !', image=save_image, width=55, height=55,
+           command=lambda: save_file(1)).grid(row=1, column=2, sticky=W)
 
     # file 2 window
-    text_area_2 = Text(root, width=20, height=40)
-    text_area_2.grid(row=0, column=2, padx=1, pady=25)
+    text_area_2 = Text(root, width=10, height=20)
+    text_area_2.grid(columnspan=3, row=0, column=4)
     txt2 = Text(text_area_2)
     lines2 = LineNumbers(text_area_2, txt2, width=2)
     lines2.pack(side=LEFT, fill=BOTH)
     txt2.pack(expand=True, fill=BOTH)
     txt2.focus()
-    Button(root, text='Click Me !', image=folder_image, width=40, height=40,
-           command=lambda: file1_name == open_file(2)).grid(row=1, column=2)
-    Button(root, text='Click Me !', image=clear_image, width=40, height=40,
-           command=lambda: clearToTextInput(2)).grid(row=3, column=2)
-    Button(root, text='Click Me !', image=save_image, width=40, height=40,
-           command=lambda: save_file(2)).grid(row=2, column=2)
+    Button(root, text='Click Me !', image=folder_image, width=55, height=55,
+           command=lambda: file1_name == open_file(2)).grid(row=1, column=4, sticky=E)
+    Button(root, text='Click Me !', image=clear_image, width=55, height=55,
+           command=lambda: clearToTextInput(2)).grid(row=1, column=5)
+    Button(root, text='Click Me !', image=save_image, width=55, height=55,
+           command=lambda: save_file(2)).grid(row=1, column=6, sticky=W)
 
     # compared file window
-    text_area_3 = Text(root, width=20, height=40)
-    text_area_3.grid(row=2, column=1, padx=1, pady=25)
+    text_area_3 = Text(root, width=10, height=10)
+    text_area_3.grid(row=2, column=3)
     txt3 = Text(text_area_3)
-    lines3 = LineNumbers(text_area_3, txt2, width=2)
+    lines3 = LineNumbers(text_area_3, txt3, width=2)
     lines3.pack(side=LEFT, fill=BOTH)
     txt3.pack(expand=True, fill=BOTH)
     txt3.focus()
 
+    # exit button
+    # Button(root,text="Quit", font=('Comic Sans', 13, 'bold'), command= quit_win).grid(row=10,column=10)
 
     mainloop()
