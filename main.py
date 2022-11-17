@@ -6,6 +6,7 @@ from tkinter.filedialog import asksaveasfile
 
 file1_name = ""
 file2_name = ""
+comparedArray = []
 
 
 class LineNumbers(Text):
@@ -79,10 +80,46 @@ def save_file(text):
 
 
 def file_compare():
-    print(file1_name)
-    print(file2_name)
-    # Get the file handler
-    # Loop through each line via file handler
+    comparedArray = []
+    print(file1_name.name)
+    # print(file2_name.name)
+    f1_array = []
+    f1 = open(file1_name.name, "r")
+    f2_array = []
+    f2 = open(file2_name.name, "r")
+
+    for line in f1:
+        f1_array.append(line.strip('\n'))
+    for line in f2:
+        f2_array.append(line.strip('\n'))
+
+    if len(f1_array) >= len(f2_array):
+        indexSize = len(f1_array)
+        smallestArray = len(f2_array)
+        biggestArray = "f1"
+    else:
+        indexSize = len(f2_array)
+        smallestArray = len(f1_array)
+        biggestArray = "f2"
+
+    for i in range(0, indexSize):
+        if i < smallestArray:
+            if f1_array[i] == f2_array[i]:
+                comparedArray.append(str(i + 1) + ":( )  " + f1_array[i])
+            else:
+                comparedArray.append(str(i + 1) + ":(<-) " + f1_array[i])
+                comparedArray.append(str(i + 1) + ":(->) " + f2_array[i])
+        else:
+            if biggestArray == "f1":
+                comparedArray.append(str(i + 1) + ":(<-) " + f1_array[i])
+            elif biggestArray == "f2":
+                comparedArray.append(str(i + 1) + ":(->) " + f2_array[i])
+
+    # for i in range(len(comparedArray)):
+    #     print(f"{comparedArray[i]}")
+
+    for line in range(len(comparedArray)):
+        txt3.insert(END, comparedArray[line] + "\n")
 
 
 
@@ -90,7 +127,7 @@ if __name__ == '__main__':
     # initialize
     root = Tk()
     root.title('File Comparison')
-    root.geometry('1775x700')
+    root.geometry('1500x700')
     root_icon = PhotoImage(file="Images/share-files.png")
     root.iconphoto(False, root_icon)
     # Images for button
@@ -102,8 +139,8 @@ if __name__ == '__main__':
            command=file_compare).grid(row=0, column=1)
 
     # File 1 window
-    text_area_1 = Text(root, width=65, height=40)
-    text_area_1.grid(row=0, column=0, padx=100, pady=25)
+    text_area_1 = Text(root, width=20, height=40)
+    text_area_1.grid(row=0, column=0, padx=1, pady=25)
     txt1 = Text(text_area_1)
     lines1 = LineNumbers(text_area_1, txt1, width=2)
     lines1.pack(side=LEFT, fill=BOTH)
@@ -118,8 +155,8 @@ if __name__ == '__main__':
                                               column=0)
 
     # file 2 window
-    text_area_2 = Text(root, width=65, height=40)
-    text_area_2.grid(row=0, column=2, padx=100, pady=25)
+    text_area_2 = Text(root, width=20, height=40)
+    text_area_2.grid(row=0, column=2, padx=1, pady=25)
     txt2 = Text(text_area_2)
     lines2 = LineNumbers(text_area_2, txt2, width=2)
     lines2.pack(side=LEFT, fill=BOTH)
@@ -131,5 +168,15 @@ if __name__ == '__main__':
            command=lambda: clearToTextInput(2)).grid(row=3, column=2)
     Button(root, text='Click Me !', image=save_image, width=40, height=40,
            command=lambda: save_file(2)).grid(row=2, column=2)
+
+    # compared file window
+    text_area_3 = Text(root, width=20, height=40)
+    text_area_3.grid(row=2, column=1, padx=1, pady=25)
+    txt3 = Text(text_area_3)
+    lines3 = LineNumbers(text_area_3, txt2, width=2)
+    lines3.pack(side=LEFT, fill=BOTH)
+    txt3.pack(expand=True, fill=BOTH)
+    txt3.focus()
+
 
     mainloop()
