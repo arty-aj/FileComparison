@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import Button
 from tkinter import filedialog
 from tkinter.filedialog import asksaveasfile
+import ctypes
 
 file1_name = ""
 file2_name = ""
@@ -57,13 +58,22 @@ def open_file(file):
             txt2.insert(END, line)
         file2_name.close()
 
+    if file == 3:
+        file3_name = filedialog.askopenfile(filetypes=filetypes)
+        lines = file3_name.readlines()
+        for line in lines:
+            txt3.insert(END, line)
+        file3_name.close()
+
 
 # Define a function to clear the input text
-def clearToTextInput(text):
+def clear_to_text_input(text):
     if text == 1:
         txt1.delete("1.0", "end")
     if text == 2:
         txt2.delete("1.0", "end")
+    if text == 3:
+        txt3.delete("1.0", "end")
 
 
 def save_file(text):
@@ -74,6 +84,9 @@ def save_file(text):
         f.write(text2save)
     if text == 2:
         text2save = str(txt2.get(1.0, END))  # starts from `1.0`, not `0.0`
+        f.write(text2save)
+    if text == 3:
+        text2save = str(txt3.get(1.0, END))  # starts from `1.0`, not `0.0`
         f.write(text2save)
     f.close()
 
@@ -126,6 +139,7 @@ def quit_window():
 
 if __name__ == '__main__':
     # initialize
+    ctypes.windll.shcore.SetProcessDpiAwareness(True)
     root = Tk()
     root.title('File Comparison')
 
@@ -133,8 +147,10 @@ if __name__ == '__main__':
     width = root.winfo_screenwidth()
     height = root.winfo_screenheight()
 
-    # setting tkinter window size
+    # setting tkinter window size and scaling
     root.geometry("%dx%d" % (width, height))
+
+    root.tk.call('tk', 'scaling', '1.20')
     # icon logo
     root_icon = PhotoImage(file="Images/share-files.png")
     root.iconphoto(False, root_icon)
@@ -160,7 +176,7 @@ if __name__ == '__main__':
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
            command=lambda: file1_name == open_file(1)).grid(row=1, column=0, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clearToTextInput(1)).grid(row=1, column=1)
+           command=lambda: clear_to_text_input(1)).grid(row=1, column=1)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
            command=lambda: save_file(1)).grid(row=1, column=2, sticky=W)
 
@@ -175,7 +191,7 @@ if __name__ == '__main__':
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
            command=lambda: file1_name == open_file(2)).grid(row=1, column=4, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clearToTextInput(2)).grid(row=1, column=5)
+           command=lambda: clear_to_text_input(2)).grid(row=1, column=5)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
            command=lambda: save_file(2)).grid(row=1, column=6, sticky=W)
 
@@ -187,8 +203,14 @@ if __name__ == '__main__':
     lines3.pack(side=LEFT, fill=BOTH)
     txt3.pack(expand=True, fill=BOTH)
     txt3.focus()
+    Button(root, text='Click Me !', image=folder_image, width=55, height=55,
+           command=lambda: file1_name == open_file(3)).grid(row=4, column=2, sticky=E)
+    Button(root, text='Click Me !', image=clear_image, width=55, height=55,
+           command=lambda: clear_to_text_input(3)).grid(row=4, column=3)
+    Button(root, text='Click Me !', image=save_image, width=55, height=55,
+           command=lambda: save_file(3)).grid(row=4, column=4, sticky=W)
 
-    # exit button
+    # exit button (if needed)
     # Button(root,text="Quit", font=('Comic Sans', 13, 'bold'), command= quit_win).grid(row=10,column=10)
 
     mainloop()
