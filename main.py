@@ -27,7 +27,6 @@ class LineNumbers(Text):
         p = int(p)
         final_index = str(self.text_widget.index(END))
         num_of_lines = final_index.split('.')[0]
-        num_of_lines = int(num_of_lines) - 1
         line_numbers_string = "\n".join(str(p + no) for no in range(int(num_of_lines)))
         width = len(str(num_of_lines))
 
@@ -140,8 +139,7 @@ def quit_window():
 
 if __name__ == '__main__':
     # initialize
-    # ctypes.windll.shcore.SetProcessDpiAwareness(True)
-
+    ctypes.windll.shcore.SetProcessDpiAwareness(True)
     root = Tk()
     root.title('File Comparison')
 
@@ -152,7 +150,7 @@ if __name__ == '__main__':
     # setting tkinter window size and scaling
     root.geometry("%dx%d" % (width, height))
 
-    root.tk.call('tk', 'scaling', '0.25')
+    root.tk.call('tk', 'scaling', '1.20')
     # icon logo
     root_icon = PhotoImage(file="Images/share-files.png")
     root.iconphoto(False, root_icon)
@@ -163,54 +161,60 @@ if __name__ == '__main__':
     clear_image = PhotoImage(file="Images/archeology.png")
     compare_image = PhotoImage(file="Images/sync.png")
 
+    # titles
+    Label(root, text="File One", font=("Arial", 15)).grid(columnspan="3", row=0, column=0)
+    Label(root, text="File two", font=("Arial", 15)).grid(columnspan="3", row=0, column=6)
+    Label(root, text="Results", font=("Arial", 15)).grid(columnspan="3", row=2, column=3)
+    Label(root, text="Compare Button", font=("Arial", 15)).grid(columnspan="3", row=0, column=3)
+
     # comparison Button
     Button(root, text='Click Me !', image=compare_image, width=80, height=80,
-           command=file_compare).grid(row=0, column=3)
+           command=file_compare).grid(row=1, column=4)
 
     # File 1 window
     text_area_1 = Text(root, width=10, height=20)
-    text_area_1.grid(columnspan=3, row=0, column=0)
+    text_area_1.grid(columnspan=3, row=1, column=0)
     txt1 = Text(text_area_1)
     lines1 = LineNumbers(text_area_1, txt1, width=2)
     lines1.pack(side=LEFT, fill=BOTH)
     txt1.pack(expand=True, fill=BOTH)
     txt1.focus()
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
-           command=lambda: file1_name == open_file(1)).grid(row=1, column=0, sticky=E)
+           command=lambda: file1_name == open_file(1)).grid(row=2, column=0, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clear_to_text_input(1)).grid(row=1, column=1)
+           command=lambda: clear_to_text_input(1)).grid(row=2, column=1)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
-           command=lambda: save_file(1)).grid(row=1, column=2, sticky=W)
+           command=lambda: save_file(1)).grid(row=2, column=2, sticky=W)
 
     # file 2 window
     text_area_2 = Text(root, width=10, height=20)
-    text_area_2.grid(columnspan=3, row=0, column=4)
+    text_area_2.grid(columnspan=3, row=1, column=6)
     txt2 = Text(text_area_2)
     lines2 = LineNumbers(text_area_2, txt2, width=2)
     lines2.pack(side=LEFT, fill=BOTH)
     txt2.pack(expand=True, fill=BOTH)
     txt2.focus()
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
-           command=lambda: file1_name == open_file(2)).grid(row=1, column=4, sticky=E)
+           command=lambda: file1_name == open_file(2)).grid(row=2, column=6, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clear_to_text_input(2)).grid(row=1, column=5)
+           command=lambda: clear_to_text_input(2)).grid(row=2, column=7)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
-           command=lambda: save_file(2)).grid(row=1, column=6, sticky=W)
+           command=lambda: save_file(2)).grid(row=2, column=8, sticky=W)
 
     # compared file window
     text_area_3 = Text(root, width=10, height=10)
-    text_area_3.grid(row=2, column=3)
+    text_area_3.grid(columnspan=3, row=3, column=3)
     txt3 = Text(text_area_3)
     lines3 = LineNumbers(text_area_3, txt3, width=2)
     lines3.pack(side=LEFT, fill=BOTH)
     txt3.pack(expand=True, fill=BOTH)
     txt3.focus()
     Button(root, text='Click Me !', image=folder_image, width=55, height=55,
-           command=lambda: file1_name == open_file(3)).grid(row=4, column=2, sticky=E)
+           command=lambda: file1_name == open_file(3)).grid(row=4, column=3, sticky=E)
     Button(root, text='Click Me !', image=clear_image, width=55, height=55,
-           command=lambda: clear_to_text_input(3)).grid(row=4, column=3)
+           command=lambda: clear_to_text_input(3)).grid(row=4, column=4)
     Button(root, text='Click Me !', image=save_image, width=55, height=55,
-           command=lambda: save_file(3)).grid(row=4, column=4, sticky=W)
+           command=lambda: save_file(3)).grid(row=4, column=5, sticky=W)
 
     # exit button (if needed)
     # Button(root,text="Quit", font=('Comic Sans', 13, 'bold'), command= quit_win).grid(row=10,column=10)
