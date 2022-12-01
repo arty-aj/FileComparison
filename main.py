@@ -1,4 +1,6 @@
 import os.path
+import os
+import webbrowser
 from tkinter import *
 from tkinter import Button
 from tkinter import filedialog
@@ -8,7 +10,7 @@ import ctypes
 file1_name = ""
 file2_name = ""
 comparedArray = []
-
+different_lines_text = ""
 
 class LineNumbers(Text):
     def __init__(self, master, text_widget, **kwargs):
@@ -27,6 +29,7 @@ class LineNumbers(Text):
         p = int(p)
         final_index = str(self.text_widget.index(END))
         num_of_lines = final_index.split('.')[0]
+        num_of_lines = int(num_of_lines) - 1
         line_numbers_string = "\n".join(str(p + no) for no in range(int(num_of_lines)))
         width = len(str(num_of_lines))
 
@@ -92,18 +95,34 @@ def save_file(text):
 
 
 def file_compare():
+    txt3.delete("1.0", "end")
+
+    # array to hold the text for the compared files
     compared_array = []
-    # print(file2_name.name)
+
+    # array to hold the line number of lines that are different
+    different_lines = []
+
+    # var to help highlight the correct lines in txt3
+    line_counter = 0
+
+    # initializing label text
+    different_lines_text = "DIFFERENT LINES: \n"
+
+    # array to hold content of file 1 and 2
     f1_array = []
     f1 = open(file1_name.name, "r")
     f2_array = []
     f2 = open(file2_name.name, "r")
 
+    # loops to put content from file to array
     for line in f1:
         f1_array.append(line.strip('\n'))
     for line in f2:
         f2_array.append(line.strip('\n'))
 
+    # if file 1 has more lines, set loop size for comparing both
+    # files to size of file 1, else make it size of file 2
     if len(f1_array) >= len(f2_array):
         indexSize = len(f1_array)
         smallestArray = len(f2_array)
@@ -113,24 +132,43 @@ def file_compare():
         smallestArray = len(f1_array)
         biggestArray = "f2"
 
+    # loop to compare the contents of both files
     for i in range(0, indexSize):
         if i < smallestArray:
             if f1_array[i] == f2_array[i]:
                 compared_array.append(str(i + 1) + ":( )  " + f1_array[i])
             else:
+                different_lines.append(str(i + 1))
                 compared_array.append(str(i + 1) + ":(<-) " + f1_array[i])
                 compared_array.append(str(i + 1) + ":(->) " + f2_array[i])
         else:
             if biggestArray == "f1":
+                different_lines.append(str(i + 1))
                 compared_array.append(str(i + 1) + ":(<-) " + f1_array[i])
             elif biggestArray == "f2":
+                different_lines.append(str(i + 1))
                 compared_array.append(str(i + 1) + ":(->) " + f2_array[i])
 
-    # for i in range(len(compared_array)):
-    #     print(f"{compared_array[i]}")
-
+    # This loop prints the content of the compared array to txt3
     for line in range(len(compared_array)):
         txt3.insert(END, compared_array[line] + "\n")
+
+    # This loop will highlight the lines in txt3 that are different
+    for line in range(len(different_lines)):
+        txt3.tag_add('highlightline', float(int(different_lines[line]) + line_counter), float(int(different_lines[line]) + 1 + line_counter))
+        txt3.tag_add('highlightline', float(int(different_lines[line]) + line_counter + 1), float(int(different_lines[line]) + 2 + line_counter))
+        txt3.tag_configure('highlightline', background='red', font='TkFixedFont', relief='raised')
+        line_counter = line_counter + 1
+
+    # This loop will print a label beside txt3 detailing the lines that are different
+    counter = 0
+    for line in range(len(different_lines)):
+        different_lines_text = different_lines_text + different_lines[line] + ", "
+        counter = counter + 1
+        if counter == 5:
+            different_lines_text = different_lines_text + "\n"
+            counter = 0
+    Difference.config(text=different_lines_text)
 
 
 def quit_window():
@@ -166,6 +204,8 @@ if __name__ == '__main__':
     Label(root, text="File two", font=("Arial", 15)).grid(columnspan="3", row=0, column=6)
     Label(root, text="Results", font=("Arial", 15)).grid(columnspan="3", row=2, column=3)
     Label(root, text="Compare Button", font=("Arial", 15)).grid(columnspan="3", row=0, column=3)
+    Difference = Label(root, text=different_lines_text, font=("Arial", 15), fg="gray")
+    Difference.grid(columnspan="3", row="3",column="6", sticky="w", ipadx="9")
 
     # comparison Button
     Button(root, text='Click Me !', image=compare_image, width=80, height=80,
