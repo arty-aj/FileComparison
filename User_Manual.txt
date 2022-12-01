@@ -1,0 +1,64 @@
+        User Manual
+-------------------------------
+      File Comparison
+
+      Jonathan Valdez
+       Arturo Corona
+      David Martinez
+
+===============================
+The File Comparison software
+is a tool to help users
+determine how two files
+are different by pointing
+out the differences in file
+lines, and lines that are
+contained in both.
+
+===============================
+        Buttons
+
+    - Open File: Use this
+    button when needing
+    to open a file on
+    screen. This button
+    has an image of a
+    folder for identity.
+
+    - Clear: Use this button
+    when needing to clear the
+    content in the current
+    corresponding text box.
+    This button has an image
+    of a broom for identity.
+
+    - Save: Use this button
+    to save the current contents
+    of a text box. This button
+    has an image of a floppy
+    disk for identity.
+
+    - Compare: Use this button
+    to compare the contents of
+    "File 1" and "File 2" text
+    boxes content. This button
+    has two circular arrows
+    for identity.
+
+===============================
+        Example Run
+
+1. click the open file button
+below "File 1" text box
+2. Select "python1.txt" from
+files
+3. click the open file button
+below "File 2" text box
+4. Select "python2.txt" from
+files
+5. click the compare button
+located between both text boxes
+6. Observe the differences in
+both files in the third middle
+text box.
+===============================
